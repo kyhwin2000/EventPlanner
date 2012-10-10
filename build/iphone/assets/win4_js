@@ -1,0 +1,70 @@
+
+// 약속명 레이블 
+var label1 = Ti.UI.createLabel({
+	text: '약속명 : '+Ti.App.Properties.getString('eventName'),
+	top:10,
+	left:10,
+	font: {fontSize:24}
+}); 
+Ti.UI.currentWindow.add(label1);
+    
+// 설문 날짜 레이블 
+var sD = Ti.App.Properties.getList('surveyDate');
+var string = "";
+for(var i=0;i<sD.length;i++){
+	string += sD[i]+"일, ";
+}
+
+var label2 = Ti.UI.createLabel({
+	text: '날짜 : '+string,
+	top:30,
+	left:10,
+	font: {fontSize:24}
+}); 
+Ti.UI.currentWindow.add(label2);
+
+// 클립보드에 저장 버튼 
+linkButton = Ti.UI.createButton({
+				title:"클립보드에 저장",
+				top:130,
+				left:10,
+				width:140,
+				height:40,
+				backgroundColor:'white',
+				color:'black'
+});
+Ti.UI.currentWindow.add(linkButton);
+linkButton.addEventListener('click',function(e){
+	// 서버에서 생성한 약속명에 맞는 링크를 저장하기 
+});
+
+// 카톡으로 보내기 버튼 
+kakaoButton = Ti.UI.createButton({
+				title:"카톡으로 보내기",
+				top:130,
+				left:160,
+				width:140,
+				height:40,
+				backgroundColor:'white',
+				color:'black'
+});
+Ti.UI.currentWindow.add(kakaoButton);
+
+kakaoButton.addEventListener('click',function(e){
+	var msg = "우리 언제 만날까요?";
+	var url = "http://172.30.18.181:8080/Lemon";
+	var appid = "com.appcelerator.com";
+	var appver = "1.0";
+	var appname = "약속잡는 앱";
+	var metaList = [];
+	
+	var android = {os:"android", devicetype: "phone",installurl:"market://details?id=com.kakao.talk",
+	                     executeurl : "kakaoagit://testtest"};
+	var iphone = {os:"iOS", devicetype:"pad",installurl:"items://itunes.apple.com/us/app/kakaotalk/id362057947?mt=8",
+	                     executeurl : "kakaoagit://testtest"};
+	
+	metaList.push(android); metaList.push(iphone);
+	var metainfo = new MetaInfo(metaList);
+	var link = new com.kakao.talk.KakaoLink(appid, appver, url, msg, appname, metainfo);
+	link.execute();
+});
