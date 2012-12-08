@@ -25,7 +25,7 @@ var data = [
 
 var xhr = Ti.Network.createHTTPClient({
     onload: function(e) {
-		// function called in readyState DONE (4)
+		// 제대로 접속되면 로그에 출력하고 이미지 파일을 불러오기 
 		Ti.API.info('onload called, HTTP status = '+this.status);
 		var img = Ti.UI.createImageView({
 			image:this.responseData
