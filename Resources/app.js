@@ -23,6 +23,24 @@ var data = [
 		{title:'SVP 모임', hasChild:true, color:'red', selectedColor:'#fff'},
 ];
 
+var xhr = Ti.Network.createHTTPClient({
+    onload: function(e) {
+		// function called in readyState DONE (4)
+		Ti.API.info('onload called, HTTP status = '+this.status);
+		var img = Ti.UI.createImageView({
+			image:this.responseData
+		});
+		win2.add(img);
+    },
+    onerror: function(e) {
+		Ti.API.info('error, HTTP status = '+this.status);
+		alert(e.error);
+    },
+    timeout:5000  /* in milliseconds */
+});
+xhr.open("GET", 'http://www.appcelerator.com/wp-content/uploads/2009/06/titanium_desk.png');
+xhr.send();  // request is actually sent with this statement
+
 // create table view
 for (var i = 0; i < data.length; i++ ) { 
 	data[i].color = '#000'; 
